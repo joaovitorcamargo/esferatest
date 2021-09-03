@@ -15,10 +15,10 @@ class FuncionarioController extends Controller
     }
     public function confirmregister(Request $request){
         $colaborator = $request->only(['nome', 'sobrenome', 'empresa', 'email','telefone']);
-        $funcionario = new Funcionario();
-        $funcionario->id = $colaborator['empresa'];
+        $company = new Empresa();
+        $company->id = $colaborator['empresa'];
+        $company->funcionarios()->attach($colaborator['empresa']);
         Funcionario::create($colaborator);
-        $funcionario->empresas()->attach($colaborator['empresa']);
         return redirect()->route('home');
     }
     public function edit($id){
