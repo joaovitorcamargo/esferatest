@@ -6,6 +6,7 @@ use App\Models\Empresa;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class FuncionarioController extends Controller
 {
@@ -15,10 +16,11 @@ class FuncionarioController extends Controller
     }
     public function confirmregister(Request $request){
         $colaborator = $request->only(['nome', 'sobrenome', 'empresa', 'email','telefone']);
-        $company = new Empresa();
-        $company->id = $colaborator['empresa'];
-        $company->funcionarios()->attach($colaborator['empresa']);
         Funcionario::create($colaborator);
+        $funcionario = new Funcionario();
+        $funcionario = $funcionario->where('email',$request['email'])->first();
+        Log::info($funcionario);
+        $funcionario->empresas()->attach($colaborator['empresa']);
         return redirect()->route('home');
     }
     public function edit($id){
