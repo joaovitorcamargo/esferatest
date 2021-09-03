@@ -16,9 +16,9 @@ class FuncionarioController extends Controller
     public function confirmregister(Request $request){
         $colaborator = $request->only(['nome', 'sobrenome', 'empresa', 'email','telefone']);
         $funcionario = new Funcionario();
-        $funcionario->id = Auth()->user()->id;
-        $funcionario->empresas()->attach($colaborator['empresa']);
+        $funcionario->id = $colaborator['empresa'];
         Funcionario::create($colaborator);
+        $funcionario->empresas()->attach($colaborator['empresa']);
         return redirect()->route('home');
     }
     public function edit($id){
@@ -45,11 +45,13 @@ class FuncionarioController extends Controller
 
     public function destroy($id){
         $funcionario = Funcionario::find($id);
+        $company = new Empresa();
+        $company->id = $funcionario->empresas[0]->id;
         if(!$funcionario){
             return redirect()->back();
         }
+        $company->funcionarios()->detach($funcionario->empresas[0]->id);
         $funcionario->delete();
-        $funcionario->empresas()->detach($id);
         return redirect()->route('home');
     }
 }
