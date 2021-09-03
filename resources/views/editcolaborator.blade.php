@@ -5,7 +5,7 @@
     <div class="justify-content-center">
         <div>
             <div class="card">
-                <div class="card-header">{{ __('Create New Company') }}</div>
+                <div class="card-header">{{ __('Create New Colaborator') }}</div>
                 <div class="card-body">
                     <form action="{{route('updatecolaborator',$colaborator->id)}}" enctype="multipart/form-data" method="post">
                         @csrf
