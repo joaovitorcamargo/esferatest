@@ -19,7 +19,6 @@ class FuncionarioController extends Controller
         Funcionario::create($colaborator);
         $funcionario = new Funcionario();
         $funcionario = $funcionario->where('email',$request['email'])->first();
-        Log::info($funcionario);
         $funcionario->empresas()->attach($colaborator['empresa']);
         return redirect()->route('home');
     }
